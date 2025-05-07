@@ -1,1 +1,1 @@
-🍝 Philosophers
+<h1>🍝 Philosophers
