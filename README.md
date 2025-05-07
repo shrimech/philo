@@ -26,7 +26,7 @@ Unix-based operating system (Linux/Mac)<br>
 
 
 <h1>📚 Concepts Covered</h1>
-<br><br>
+<br>
 Threads<br>
 Mutexes<br>
 Data races<br>
