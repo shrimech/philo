@@ -11,24 +11,24 @@ The Philosophers project is a challenge that deals with the classic dining philo
 <h1>🧮 The Problem</h1>
 The problem consists of philosophers sitting at a round table performing three actions:
 
-Eating 🍽️
-Thinking 🤔
-Sleeping 😴
+Eating 🍽️<br>
+Thinking 🤔<br>
+Sleeping 😴<br>
 Each philosopher needs two forks to eat, and there's only one fork between each philosopher. The challenge is to design a solution where no philosopher will starve, avoiding deadlocks and optimizing resource use.
 
 <h1>🛠️ Prerequisites</h1>
 To compile and run this project, you will need:
 
-GCC compiler
-Make
-pthread library
-Unix-based operating system (Linux/Mac)
+GCC compiler<br>
+Make<br>
+pthread library<br>
+Unix-based operating system (Linux/Mac)<br>
 
 
 <h1>📚 Concepts Covered</h1>
 Threads<br>
-Mutexes
-Data races
-Deadlocks
-Resource sharing
-Process synchronization
+Mutexes<br>
+Data races<br>
+Deadlocks<br>
+Resource sharing<br>
+Process synchronization<br>
