@@ -15,8 +15,6 @@ void	check_args(int ac, char **av)
 	{
 		if (ft_strlen(av[i]) == 0)
 			exit((write(2,"please don't let empty arguments",32),1));
-		if (ft_atoi(av[i]) < 1 || ft_atoi(av[i]) > 2147483647)
-            exit((write(2,"arguments should be beggest then 1  && less than int max",56),1));
         j = 0;
 		while (av[i][j])
 		{
@@ -24,6 +22,20 @@ void	check_args(int ac, char **av)
 				exit((write(2,"arguments should contain just numbers",37),1));
 			j++;
 		}
+		if (ft_atoi(av[i]) < 1 || ft_atoi(av[i]) > 2147483647)
+			exit((write(2,"arguments should be beggest then 1  && less than int max",56),1));
 		i++;
 	}
+}
+
+void	parce_data(t_philo *philo, int ac, char **av)
+{
+	philo->data->nbr_philo = ft_atoi(av[1]);
+	philo->data->time_to_die = ft_atoi(av[2]);
+	philo->data->time_to_eat = ft_atoi(av[3]);
+	philo->data->time_to_sleep = ft_atoi(av[4]);
+	if (ac == 6)
+		philo->data->nb_eat = ft_atoi(av[5]);
+	else
+		philo->data->nb_eat = -1;
 }
