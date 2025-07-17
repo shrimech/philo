@@ -6,97 +6,65 @@
 /*   By: shrimech <shrimech@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 06:10:07 by shrimech          #+#    #+#             */
-/*   Updated: 2025/07/15 15:22:20 by shrimech         ###   ########.fr       */
+/*   Updated: 2025/07/17 09:09:07 by shrimech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int ft_strlen(char *str)
+void	ft_eat(t_philo *philo)
 {
-    int i = 0;
-
-    while(str[i])
-        i++;
-    return(i);
+	pthread_mutex_lock(philo->left_fork);
+	ft_print(philo, "has taken a fork");
+	pthread_mutex_lock(philo->r_fork);
+	ft_print(philo, "has taken a fork");
+	ft_print(philo, "is eating");
+	pthread_mutex_lock(philo->data->mutex1);
+	philo->last_eat = ft_get_time();
+	pthread_mutex_unlock(philo->data->mutex1);
+	ft_usleep(philo->data->time_to_eat);
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_lock(philo->data->mutex1);
+	philo->nb_eat++;
+	pthread_mutex_unlock(philo->data->mutex1);
 }
 
 int	ft_atoi(const char *str)
 {
-	int	num;
 	int	i;
+	int	sign;
+	int	res;
 
-	num = 0;
 	i = 0;
-	while (str[i])
-	{
-		if (!(str[i] >= '0' && str[i] <= '9'))
-			return (0);
+	sign = 1;
+	res = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r')
 		i++;
-	}
-	i = 0;
+	if (str[i] == '-')
+		sign = -1;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		num = (num * 10) + (str[i] - '0');
-		i++;
-        if (num > 2147483647)
-            return(num);
-	}
-	return (num);
-}
-
-void	ft_mutex_init(t_philo *philo)
-{
-	int	i;
-
-	pthread_mutex_init(&philo->data->print, NULL);
-
-	pthread_mutex_init(&philo->data->saving, NULL);
-	philo->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
-			* philo->data->nbr_philo);
-	if (!philo->forks)
-		exit (1);
-	i = 0;
-	while (i < philo->data->nbr_philo)
-	{
-		pthread_mutex_init(&philo->forks[i], NULL);
+		res = res * 10 + str[i] - '0';
 		i++;
 	}
+	return (res * sign);
 }
 
-int	ft_get_time(void)
-{
-	struct timeval	time;
 
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
-}
 
-void	ft_usleep(long time)
-{
-	long	start;
-
-	start = ft_get_time();
-	while (ft_get_time() - start < time)
-		usleep(500);
-}
-
-void	ft_print_dead(t_philo *philo)
+int	ft_strlen(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (i < philo->data->nbr_philo)
-	{
-		if (philo[i].full == 1)
-			return ;
+	while (str[i])
 		i++;
-	}
-	pthread_mutex_lock(&philo->data->print);
-	printf("%ld %d died\n", ft_get_time() - philo->data->starting, philo->id);
-	pthread_mutex_unlock(&philo->data->print);
+	return (i);
 }
-
 
 int	count_full_philosophers(t_philo *philo)
 {
@@ -105,31 +73,21 @@ int	count_full_philosophers(t_philo *philo)
 
 	i = 0;
 	eat_nb = 0;
-	while (i < philo->data->nbr_philo)
+	while (i < philo->data->nb_philo)
 	{
-		pthread_mutex_lock(&philo->data->saving);
-		if (philo[i].full == 1)
+		pthread_mutex_lock(philo->data->mutex1);
+		if (philo[i].is_full == 1)
 			eat_nb++;
 		i++;
-		pthread_mutex_unlock(&philo->data->saving);
+		pthread_mutex_unlock(philo->data->mutex1);
 	}
 	return (eat_nb);
 }
 
-void	ft_free_all(t_philo *philo)
+long	ft_get_time(void)
 {
-	int	i;
+	struct timeval	time;
 
-	i = 0;
-	while (i < philo->data->nbr_philo)
-	{
-		pthread_join(philo[i].thread, NULL);
-		pthread_mutex_destroy(&philo->forks[i]);
-		i++;
-	}
-	pthread_mutex_destroy(&philo->data->print);
-	pthread_mutex_destroy(&philo->data->saving);
-	free(philo->forks);
-	free(philo->data);
-	free(philo);
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }

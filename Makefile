@@ -5,7 +5,7 @@ CC = cc
 CFLAGS =  -Wall -Wextra -Werror -pthread -g
 
 
-SRCS = philo.c  routine.c print.c parcing/private_data.c parcing/public_data.c utils/utils.c
+SRCS = philo.c parcing/private_data.c parcing/public_data.c utils/utils.c utils/print.c utils/destroying.c
 
 OBJS = $(SRCS:.c=.o)
 
