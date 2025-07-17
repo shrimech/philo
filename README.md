@@ -19,7 +19,7 @@ Each philosopher needs two forks to eat, and there's only one fork between each 
 <h1>🛠️ Prerequisites</h1>
 To compile and run this project, you will need:
 <br><br>
-GCC compiler<br>
+CC compiler<br>
 Make<br>
 pthread library<br>
 Unix-based operating system (Linux/Mac)<br>
