@@ -6,13 +6,13 @@
 /*   By: shrimech <shrimech@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 06:09:21 by shrimech          #+#    #+#             */
-/*   Updated: 2025/07/17 09:25:36 by shrimech         ###   ########.fr       */
+/*   Updated: 2025/07/25 11:01:10 by shrimech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int	ft_check_validity(int ac, char **av)
+int	check_validity(int ac, char **av)
 {
 	int	i;
 	int	j;
@@ -34,11 +34,11 @@ int	ft_check_validity(int ac, char **av)
 	return (0);
 }
 
-int	ft_fill_data(t_philo *philo, int ac, char **av)
+int	fill_data(t_philo *philo, int ac, char **av)
 {
-	if (ft_check_validity(ac, av))
+	if (check_validity(ac, av))
 		return (1);
-	philo->data->nb_philo = ft_atoi(av[1]);
+	philo->data->philo_nbr = ft_atoi(av[1]);
 	philo->data->time_to_die = ft_atoi(av[2]);
 	philo->data->time_to_eat = ft_atoi(av[3]);
 	philo->data->time_to_sleep = ft_atoi(av[4]);

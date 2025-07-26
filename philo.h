@@ -6,7 +6,7 @@
 /*   By: shrimech <shrimech@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:38:36 by shrimech          #+#    #+#             */
-/*   Updated: 2025/07/17 09:21:14 by shrimech         ###   ########.fr       */
+/*   Updated: 2025/07/25 11:15:06 by shrimech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # include <pthread.h>
 #include <bits/pthreadtypes.h>
-# include <semaphore.h>
+// # include <semaphore.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
@@ -28,15 +28,15 @@ typedef pthread_mutex_t l9fel;
 
 typedef struct s_data
 {
-	int				nb_philo;
+	int				philo_nbr;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				nb_must_eat;
 	long			start_time;
 	int				is_dead;
-	l9fel			*mutex1;
-	l9fel			*print;
+	l9fel			*shared_mut;
+	l9fel			*print_mut;
 	
 }					t_data;
 
@@ -46,7 +46,7 @@ typedef struct s_philo
 
 	int				is_dead;
 	int				is_full;
-	int				is_over;
+	// int				is_over;
 	int				is_started;
 	long			last_eat;
 	int				nb_eat;
@@ -61,16 +61,16 @@ typedef struct s_philo
 
 int					ft_atoi(const char *str);
 int					ft_error(char *str);
-int					ft_check_validity(int ac, char **av);
+int					check_validity(int ac, char **av);
 int					ft_strlen(char *str);
 int					count_full_philosophers(t_philo *philo);
 void				ft_print(t_philo *philo, char *str);
-void				ft_philo_construction(t_philo *philo);
-void				ft_eat(t_philo *philo);
-void				ft_free_all(t_philo *philo);
-void				ft_print_dead(t_philo *philo);
+void				philo_construction(t_philo *philo);
+void				eat(t_philo *philo);
+void				free_all(t_philo *philo);
+void				print_dead(t_philo *philo);
 int					ft_free(t_philo *philo);
-int					ft_fill_data(t_philo *philo, int ac, char **av);
+int					fill_data(t_philo *philo, int ac, char **av);
 long				ft_get_time(void);
 void				ft_usleep(long time);
 

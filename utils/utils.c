@@ -6,29 +6,30 @@
 /*   By: shrimech <shrimech@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 06:10:07 by shrimech          #+#    #+#             */
-/*   Updated: 2025/07/17 09:09:07 by shrimech         ###   ########.fr       */
+/*   Updated: 2025/07/25 11:02:02 by shrimech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	ft_eat(t_philo *philo)
+void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
 	ft_print(philo, "has taken a fork");
 	pthread_mutex_lock(philo->r_fork);
 	ft_print(philo, "has taken a fork");
 	ft_print(philo, "is eating");
-	pthread_mutex_lock(philo->data->mutex1);
+	pthread_mutex_lock(philo->data->shared_mut);
 	philo->last_eat = ft_get_time();
-	pthread_mutex_unlock(philo->data->mutex1);
+	pthread_mutex_unlock(philo->data->shared_mut);
 	ft_usleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_lock(philo->data->mutex1);
+	pthread_mutex_lock(philo->data->shared_mut);
 	philo->nb_eat++;
-	pthread_mutex_unlock(philo->data->mutex1);
+	pthread_mutex_unlock(philo->data->shared_mut);
 }
+
 
 int	ft_atoi(const char *str)
 {
@@ -73,13 +74,13 @@ int	count_full_philosophers(t_philo *philo)
 
 	i = 0;
 	eat_nb = 0;
-	while (i < philo->data->nb_philo)
+	while (i < philo->data->philo_nbr)
 	{
-		pthread_mutex_lock(philo->data->mutex1);
+		pthread_mutex_lock(philo->data->shared_mut);
 		if (philo[i].is_full == 1)
 			eat_nb++;
 		i++;
-		pthread_mutex_unlock(philo->data->mutex1);
+		pthread_mutex_unlock(philo->data->shared_mut);
 	}
 	return (eat_nb);
 }
