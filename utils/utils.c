@@ -19,15 +19,15 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(philo->r_fork);
 	ft_print(philo, "has taken a fork");
 	ft_print(philo, "is eating");
+	ft_usleep(philo->data->time_to_eat);
 	pthread_mutex_lock(philo->data->shared_mut);
 	philo->last_eat = ft_get_time();
 	pthread_mutex_unlock(philo->data->shared_mut);
-	ft_usleep(philo->data->time_to_eat);
-	pthread_mutex_unlock(philo->r_fork);
-	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_lock(philo->data->shared_mut);
 	philo->nb_eat++;
 	pthread_mutex_unlock(philo->data->shared_mut);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->r_fork);
 }
 
 

@@ -17,7 +17,6 @@
 
 # include <pthread.h>
 #include <bits/pthreadtypes.h>
-// # include <semaphore.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
@@ -46,7 +45,6 @@ typedef struct s_philo
 
 	int				is_dead;
 	int				is_full;
-	// int				is_over;
 	int				is_started;
 	long			last_eat;
 	int				nb_eat;
@@ -69,7 +67,7 @@ void				philo_construction(t_philo *philo);
 void				eat(t_philo *philo);
 void				free_all(t_philo *philo);
 void				print_dead(t_philo *philo);
-int					ft_free(t_philo *philo);
+void				ft_free(t_philo *philo);
 int					fill_data(t_philo *philo, int ac, char **av);
 long				ft_get_time(void);
 void				ft_usleep(long time);
