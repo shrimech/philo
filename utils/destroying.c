@@ -21,23 +21,6 @@ void	ft_usleep(long time)
 	while (ft_get_time() - start < time)
 		usleep(500);
 }
-void ft_free(t_philo *philo)
-{
-	if(philo->data->print_mut)
-		pthread_mutex_destroy(philo->data->print_mut);
-	if(philo->data->shared_mut)
-		pthread_mutex_destroy(philo->data->shared_mut);
-	if(philo->data->shared_mut)
-		free(philo->data->shared_mut);
-	if(philo->data->print_mut)
-		free(philo->data->print_mut);
-	if(philo->data)
-		free(philo->data);
-	if(philo->forks)
-		free(philo->forks);
-	if(philo)
-		free(philo);
-}
 
 int	ft_error(char *str)
 {
@@ -55,8 +38,12 @@ void	free_all(t_philo *philo)
 		pthread_join(philo[i].philo, NULL);
 		pthread_mutex_destroy(&philo->forks[i]);
 		i++;
-		if(i == philo->data->philo_nbr)
-			break;
 	}
-	ft_free(philo);
+	pthread_mutex_destroy(philo->data->print_mut);
+	pthread_mutex_destroy(philo->data->shared_mut);
+	free(philo->data->shared_mut);
+	free(philo->forks);
+	free(philo->data->print_mut);
+	free(philo->data);
+	free(philo);
 }
